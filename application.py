@@ -31,7 +31,7 @@ def read_info_message():
 	for line in filedata:
 		if line != '':
 			val = line.split()
-			mList[val[0]] = val[1]
+			mList[val[0]] = ' '.join(word for word in val[1:])
 	return mList
 
 def write_info_message():
