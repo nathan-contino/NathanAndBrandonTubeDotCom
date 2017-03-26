@@ -59,7 +59,7 @@ def login():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
 	print(userList)
-	if userList[uname]:
+	if userList.get(uname):
 		if (userList.get(uname) == pword):
 			redirect_to_thanks = redirect('/dynamichome')
 			response = application.make_response(redirect_to_thanks)  
