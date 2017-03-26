@@ -1,14 +1,15 @@
 from flask import Flask
 from flask import render_template, request
+import csv
 
 application = Flask(__name__)
-userList = open("username.txt").readlines()
-data = open("json/videos.json").read();
+userList = csv.DictReader(open("username.txt", 'rw'), delimiter=' ')
+# data = open("json/videos.json").read();
 
 def write_data_to_file():
 	file = open("username.txt");
 	for u in userList:
-		file.write(u, ' ' userList[u]);
+		file.write(u, ' ', userList[u]);
 
 @application.route('/')
 def index():
@@ -20,17 +21,15 @@ def login():
 	pword = request.args.get('password')
 
 	for user in userList:
-		infos = user.rstrip('\n').split(" ")
-		print(infos)
-		if (infos[0] == uname):
-			if (infos[1] == pword):
+		if (user['username'] == uname):
+			if (user['password'] == pword):
 				return "success"
 			else: return "failure"
 
 	return "no such user"
 
 
-@application.route('/login', methods = ['GET'])
+@application.route('/makelogin', methods = ['GET'])
 def makelogin():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
