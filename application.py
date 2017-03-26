@@ -100,6 +100,10 @@ def makelogin():
 def register():
 	return render_template("register.html")
 
+@application.route('/satellite')
+def satellite():
+	return render_template("satellite.html")
+
 if __name__ == "__main__":
 	application.debug = True
 	application.run(port = 8080)
