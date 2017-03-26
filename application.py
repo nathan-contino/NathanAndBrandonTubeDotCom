@@ -19,7 +19,7 @@ def write_info():
 	buffer = ''	
 	for user in userList:
 		buffer += user + ' '
-		buffer += userList[user] + ' '
+		buffer += userList[user] + ' ' + '\n'
 	f.write(buffer)
 	f.close()
 
@@ -60,7 +60,7 @@ def login():
 	pword = request.args.get('password')
 	print(userList)
 	if userList[uname]:
-		if (userList[uname] == pword):
+		if (userList.get(uname) == pword):
 			redirect_to_thanks = redirect('/dynamichome')
 			response = application.make_response(redirect_to_thanks)  
 			response.set_cookie('username',value=uname)
