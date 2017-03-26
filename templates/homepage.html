@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Home Page</title>
+</head>
+<body>
+	Hello {{username}}! <br/> <br/>
+	To type a message to another user, please enter the message here: <br/> <br/>
+	<form action="/sendmessage">
+		User to recieve message: <br/>
+		<input type="text" name="username"> <br/>
+		Message to be recieved: <br/>
+		<input type="text" name="message"> <br/>
+		<input type="submit"> <br/>
+	</form> <br/> <br/>
+	View your most recent message: <br/> <br/>
+	{{ message }}
+</body>
+</html>
