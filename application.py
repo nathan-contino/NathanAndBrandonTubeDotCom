@@ -3,12 +3,12 @@ from flask import render_template, request
 
 application = Flask(__name__)
 userList = open("username.txt").readlines()
-data = open("json/videos.json").read();
+#data = open("json/videos.json").read();
 
 def write_data_to_file():
 	file = open("username.txt");
 	for u in userList:
-		file.write(u, ' ' userList[u]);
+		file.write(u, ' ', userList[u]);
 
 @application.route('/')
 def index():
@@ -30,7 +30,7 @@ def login():
 	return "no such user"
 
 
-@application.route('/login', methods = ['GET'])
+@application.route('/makelogin', methods = ['GET'])
 def makelogin():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
@@ -43,7 +43,11 @@ def makelogin():
 
 	write_data_to_file()
 
-	return render_template("login")
+	return render_template("thanku")
+
+@application.route('/thanku')
+def thanku():
+	return render_template("thanku.html");
 
 @application.route('/register')
 def register():
