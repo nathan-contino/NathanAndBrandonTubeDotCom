@@ -42,7 +42,11 @@ def makelogin():
 
 	write_data_to_file()
 
-	return render_template("login")
+	return render_template("thanku")
+
+@application.route('/thanku')
+def thanku():
+	return render_template("thanku.html");
 
 @application.route('/register')
 def register():
