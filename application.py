@@ -19,7 +19,7 @@ def write_info():
 	buffer = ''	
 	for user in userList:
 		buffer += user + ' '
-		buffer += userList[user] + ' '
+		buffer += userList[user] + ' ' + '\n'
 	f.write(buffer)
 	f.close()
 
@@ -66,7 +66,7 @@ def login():
 
 @application.route('/dynamichome')
 def dynamicHome():
-	
+	return "steven"
 
 @application.route('/sendmessage', methods = ['GET'])
 def send():
