@@ -11,10 +11,7 @@ def read_info():
 		if line != '':
 			val = line.split()
 			uList[val[0]] = val[1]
-	return uList;
-
-application = Flask(__name__)
-userList = read_info();
+	return uList
 
 def write_info():
 	open('username.txt', 'a').close()
@@ -25,6 +22,31 @@ def write_info():
 		buffer += userList[user] + ' '
 	f.write(buffer)
 	f.close()
+
+def read_info_message():
+	f = open('messages.txt', 'r')
+	filedata = f.read().split('\n')
+	f.close()
+	mList = {}
+	for line in filedata:
+		if line != '':
+			val = line.split()
+			mList[val[0]] = val[1]
+	return mList
+
+def write_info_message():
+	open('messages.txt', 'a').close()
+	f = open('messages.txt', 'w')
+	buffer = ''
+	for mess in messageList:
+		buffer += mess + ' '
+		buffer += messageList[mess] + '\n'
+	f.write(buffer)
+	f.close()
+
+application = Flask(__name__)
+userList = read_info()
+messageList = read_info_message()
 
 @application.route('/')
 def index():
@@ -42,6 +64,22 @@ def login():
 
 	return "no such user"
 
+@application.route('/dynamichome')
+def dynamicHome():
+	
+
+@application.route('/sendmessage', methods = ['GET'])
+def send():
+	uname = request.args.get('username')
+	mess = request.args.get('message')
+	messageList[uname] = mess
+	write_info_message()
+	return render_template("thanks2.html")
+
+@application.route('/homepage', methods = ['GET'])
+def homepage():
+	uname = request.args.get('username')
+	return render_template("homepage.html", username = uname, message = messageList.get(uname))
 
 @application.route('/makelogin', methods = ['GET'])
 def makelogin():
