@@ -31,7 +31,7 @@ def read_info_message():
 	for line in filedata:
 		if line != '':
 			val = line.split()
-			mList[val[0]] = val[1]
+			mList[val[0]] = ' '.join(word for word in val[1:])
 	return mList
 
 def write_info_message():
@@ -50,16 +50,23 @@ messageList = read_info_message()
 
 @application.route('/')
 def index():
-	return render_template("index.html")
+	if 'username' in request.cookies:
+		return redirect('/dynamichome')
+	else:
+		return render_template("index.html")
 
-# @application.route('/logout')
+@application.route('/logout')
+def logout():
+	resp = make_response(render_template("thanku.html"))
+	resp.set_cookie('username', expires=0)
+	return resp
 
 @application.route('/login', methods = ['GET'])
 def login():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
 	print(userList)
-	if userList.get(uname):
+	if (userList.get(uname)):
 		if (userList.get(uname) == pword):
 			redirect_to_thanks = redirect('/dynamichome')
 			response = application.make_response(redirect_to_thanks)  
@@ -72,7 +79,7 @@ def login():
 @application.route('/dynamichome')
 def dynamicHome():
 	if 'username' in request.cookies:
-		return "Please go to your homepage <a href='/homepage?username={}'>here</a> <br/> Or check out some cool videos here <a href='/videos'>here</a> ".format(request.cookies['username'])
+		return "Please go to your homepage <a href='/homepage?username={}'>here</a> <br/> Or check out some cool videos here <a href='/videos'>here</a> <br/><br/> Or if you want to logout click here: <a href='/logout'>this link</a>".format(request.cookies['username'])
 
 @application.route('/sendmessage', methods = ['GET'])
 def send():

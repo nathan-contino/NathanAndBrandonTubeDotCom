@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>User Home Page</title>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
 	Hello {{username}}! <br/> <br/>
@@ -14,6 +15,9 @@
 		<input type="submit"> <br/>
 	</form> <br/> <br/>
 	View your most recent message: <br/> <br/>
-	{{ message }}
+	{{ message }}<br/> <br/>
+
+	Or if you want to logout click here:  
+	<a href="/logout">this link</a>
 </body>
 </html>
