@@ -2,6 +2,13 @@ from flask import Flask
 from flask import render_template, request
 
 application = Flask(__name__)
+userList = open("username.txt").readlines()
+data = open("json/videos.json").read();
+
+def write_data_to_file():
+	file = open("username.txt");
+	for u in userList:
+		file.write(u, ' ' userList[u]);
 
 @application.route('/')
 def index():
@@ -9,8 +16,6 @@ def index():
 
 @application.route('/login', methods = ['GET'])
 def login():
-
-	userList = open("username.txt").readlines()
 	uname = request.args.get('username')
 	pword = request.args.get('password')
 
@@ -24,6 +29,26 @@ def login():
 
 	return "no such user"
 
+
+@application.route('/login', methods = ['GET'])
+def makelogin():
+	uname = request.args.get('username')
+	pword = request.args.get('password')
+	pwordconfirm = request.args.get('confirm')
+
+	if pword == pwordconfirm:
+		userList[uname] = pword;
+	else: 
+		return render_template("register")
+
+	write_data_to_file()
+
+	return render_template("login")
+
+@application.route('/register')
+def register():
+	return render_template("register.html")
+
 if __name__ == "__main__":
-    application.debug = True
-    application.run(port = 8080)
+	application.debug = True
+	application.run(port = 8080)
