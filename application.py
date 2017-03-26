@@ -25,7 +25,6 @@ def write_info():
 		buffer += userList[user] + ' '
 	f.write(buffer)
 	f.close()
-# data = open("json/videos.json").read();
 
 @application.route('/')
 def index():
