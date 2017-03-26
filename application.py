@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, make_response, redirect
 import csv
 
 def read_info():
@@ -52,6 +52,8 @@ messageList = read_info_message()
 def index():
 	return render_template("index.html")
 
+# @application.route('/logout')
+
 @application.route('/login', methods = ['GET'])
 def login():
 	uname = request.args.get('username')
@@ -59,14 +61,18 @@ def login():
 	print(userList)
 	if userList[uname]:
 		if (userList[uname] == pword):
-			return "success"
+			redirect_to_thanks = redirect('/dynamichome')
+			response = application.make_response(redirect_to_thanks)  
+			response.set_cookie('username',value=uname)
+			return response
 		else: return "failure"
 
 	return "no such user"
 
 @application.route('/dynamichome')
 def dynamicHome():
-	
+	if 'username' in request.cookies:
+		return "Please go to your homepage <a href='/homepage?username={}'>here</a> <br/> Or check out some cool videos here <a href='/videos'>here</a> ".format(request.cookies['username'])
 
 @application.route('/sendmessage', methods = ['GET'])
 def send():
@@ -94,7 +100,10 @@ def makelogin():
 
 	write_info()
 
-	return render_template("thanku.html")
+	redirect_to_thanks = render_template("thanku.html")
+	response = application.make_response(redirect_to_thanks)  
+	response.set_cookie('username',value=uname)
+	return response
 
 @application.route('/videos')
 def videos():
