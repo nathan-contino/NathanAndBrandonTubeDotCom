@@ -4,7 +4,8 @@ BODY {
   background-color: #4A525A;
   padding-left: 5%;
   padding-right: 5%;
-  padding-bottom: 5%;}
+  padding-bottom: 5%;
+  margin:auto;}
 
 a:link {color: #CCC;}
 a:visited {color: #00bbbb;}

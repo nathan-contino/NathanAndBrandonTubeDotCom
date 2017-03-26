@@ -57,8 +57,8 @@ def login():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
 	print(userList)
-	if userList[uname]:
-		if (userList[uname] == pword):
+	if userList.get(uname):
+		if (userList.get(uname) == pword):
 			return "success"
 		else: return "failure"
 
