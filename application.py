@@ -66,12 +66,15 @@ def login():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
 	print(userList)
-	if (userList.get(uname) == pword):
-		redirect_to_thanks = redirect('/dynamichome')
-		response = application.make_response(redirect_to_thanks)  
-		response.set_cookie('username',value=uname)
-		return response
-	else: return "no such user"
+	if (userList.get(uname)):
+		if (userList.get(uname) == pword):
+			redirect_to_thanks = redirect('/dynamichome')
+			response = application.make_response(redirect_to_thanks)  
+			response.set_cookie('username',value=uname)
+			return response
+		else: return "failure"
+
+	return "no such user"
 
 @application.route('/dynamichome')
 def dynamicHome():
