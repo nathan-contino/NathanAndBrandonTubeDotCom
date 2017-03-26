@@ -2,14 +2,30 @@ from flask import Flask
 from flask import render_template, request
 import csv
 
-application = Flask(__name__)
-userList = csv.DictReader(open("username.txt", 'rw'), delimiter=' ')
-# data = open("json/videos.json").read();
+def read_info():
+	f = open('username.txt', 'r')
+	filedata = f.read().split('\n')
+	f.close()
+	uList = {}
+	for line in filedata:
+		if line != '':
+			val = line.split()
+			uList[val[0]] = val[1]
+	return uList;
 
-def write_data_to_file():
-	file = open("username.txt");
-	for u in userList:
-		file.write(u, ' ', userList[u]);
+application = Flask(__name__)
+userList = read_info();
+
+def write_info():
+	open('username.txt', 'a').close()
+	f = open('username.txt', 'w')
+	buffer = ''	
+	for user in userList:
+		buffer += user + ' '
+		buffer += userList[user] + ' '
+	f.write(buffer)
+	f.close()
+# data = open("json/videos.json").read();
 
 @application.route('/')
 def index():
@@ -19,12 +35,11 @@ def index():
 def login():
 	uname = request.args.get('username')
 	pword = request.args.get('password')
-
-	for user in userList:
-		if (user['username'] == uname):
-			if (user['password'] == pword):
-				return "success"
-			else: return "failure"
+	print(userList)
+	if userList[uname]:
+		if (userList[uname] == pword):
+			return "success"
+		else: return "failure"
 
 	return "no such user"
 
@@ -40,13 +55,9 @@ def makelogin():
 	else: 
 		return render_template("register")
 
-	write_data_to_file()
+	write_info()
 
-	return render_template("thanku")
-
-@application.route('/thanku')
-def thanku():
-	return render_template("thanku.html");
+	return render_template("thanku.html")
 
 @application.route('/register')
 def register():
