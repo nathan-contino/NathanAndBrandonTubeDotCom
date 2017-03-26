@@ -58,6 +58,10 @@ def makelogin():
 
 	return render_template("thanku.html")
 
+@application.route('/videos')
+def videos():
+	return render_template("videos.html")
+
 @application.route('/register')
 def register():
 	return render_template("register.html")
@@ -65,6 +69,22 @@ def register():
 @application.route('/satellite')
 def satellite():
 	return render_template("satellite.html")
+
+@application.route('/drone')
+def drone():
+	return render_template("drone.html")
+
+@application.route('/montreal')
+def montreal():
+	return render_template("montreal.html")
+
+@application.route('/hackertype')
+def hackertype():
+	return render_template("hackertype.html")
+
+@application.route('/macbook')
+def macbook():
+	return render_template("macbook.html")
 
 if __name__ == "__main__":
 	application.debug = True
